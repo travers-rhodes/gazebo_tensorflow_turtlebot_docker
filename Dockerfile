@@ -135,8 +135,7 @@ permitted-security-types = TLSVnc,VNC\n\
 ' > /etc/turbovncserver-security.conf
 
 COPY self.pem /
-EXPOSE 5901
-ENV DISPLAY :1
+EXPOSE 5902
 
 COPY vncpassword.txt /
 RUN mkdir /root/.vnc && \  
@@ -144,5 +143,8 @@ RUN mkdir /root/.vnc && \
     cat /vncpassword.txt /vncpassword.txt | vncpasswd && \
     rm /vncpassword.txt
 
-ENTRYPOINT ["/opt/websockify/run", "5901", "--cert=/self.pem", "--ssl-only", "--web=/opt/noVNC", "--wrap-mode=ignore", "--", "vncserver", ":1", "-securitytypes", "TLSVnc,VNC", "-localhost"]
+ENV DISPLAY :2
+ENV VGL_DISPLAY :1
+
+ENTRYPOINT ["/opt/websockify/run", "5902", "--cert=/self.pem", "--web=/opt/noVNC", "--wrap-mode=ignore", "--", "vncserver", ":2", "-securitytypes", "TLSVnc,VNC", "-localhost"]
 
