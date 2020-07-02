@@ -16,7 +16,7 @@
 # openssl req -new -x509 -days 365 -nodes -out self.pem -keyout self.pem
 # vim vncpassword.txt (only uses first 8 characters!)
 # docker build -t turtlebot .
-# docker run --init --runtime=nvidia --name=turtlebot --rm -i -v /tmp/.X11-unix/X0:/tmp/.X11-unix/X0 -p 5901:5901 turtlebot 
+# docker run --init --gpus all --name=turtlebot --rm -i -v /tmp/.X11-unix/X0:/tmp/.X11-unix/X0 -p 5901:5901 turtlebot 
 # now, you can connect to this machine from a browser using https://localhost:5901
 # and using the password you put in the vncpassword.txt
 #####
