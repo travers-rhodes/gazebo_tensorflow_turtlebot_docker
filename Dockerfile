@@ -143,8 +143,8 @@ RUN mkdir /root/.vnc && \
     cat /vncpassword.txt /vncpassword.txt | vncpasswd && \
     rm /vncpassword.txt
 
-ENV DISPLAY :2
-ENV VGL_DISPLAY :1
+ENV DISPLAY :3
+ENV VGL_DISPLAY :2
 
-ENTRYPOINT ["/opt/websockify/run", "5902", "--cert=/self.pem", "--web=/opt/noVNC", "--wrap-mode=ignore", "--", "vncserver", ":2", "-securitytypes", "TLSVnc,VNC", "-localhost"]
+ENTRYPOINT ["/opt/websockify/run", "5903", "--cert=/self.pem", "--web=/opt/noVNC", "--wrap-mode=ignore", "--", "vncserver", ":3", "-securitytypes", "TLSVnc,VNC", "-localhost"]
 
