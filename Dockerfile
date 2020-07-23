@@ -12,11 +12,13 @@
 ######
 ###### Directions for running this dockerfile:
 ######
-# xhost +si:localuser:root
+# starx -- :2 (in a separate tmux window so it stays running forever)
+# export DISPLAY=:2
+# xhost +
 # openssl req -new -x509 -days 365 -nodes -out self.pem -keyout self.pem
 # vim vncpassword.txt (only uses first 8 characters!)
-# docker build -t turtlebot .
-# docker run --init --gpus all --name=turtlebot --rm -i -v /tmp/.X11-unix/X0:/tmp/.X11-unix/X0 -p 5901:5901 turtlebot 
+# docker build -t turtlebot_port5903 .
+# docker run --init --gpus all --name=turtlebot_port5903 -i -v /tmp/.X11-unix/X2:/tmp/.X11-unix/X2 -p 5903:5903 turtlebot_port5903
 # now, you can connect to this machine from a browser using https://localhost:5901
 # and using the password you put in the vncpassword.txt
 #####
