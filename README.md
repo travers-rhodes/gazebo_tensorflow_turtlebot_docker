@@ -41,3 +41,29 @@ docker run --init --gpus all --name=turtlebot_port5903 -it -v /tmp/.X11-unix/X2:
 2. Install `sudo apt-get install openvpn`
 2. Create an ssh tunnel to the lab machine using `ssh -N -L 4194:localhost:4194 username_here@server.url.address.here`
 3. Run `sudo openvpn --config your_client_config.ovpn`
+
+### Connect using SSH
+1. First, connect using a VPN (above)
+2. (optional) update/create your ~/.ssh/config file to include
+```
+Host 10.8.0.1
+    User root
+```
+3. (optional) run `ssh-keygen` to create an ssh key
+4. (optional) run `ssh-copy-id root@10.8.0.1` to copy your ssh key to the docker container and enter the root password from `root_password.txt` above.
+5. ssh to the docker container using `ssh root@10.8.0.1` and enter the root password for the docker container from `root_password.txt` above (or, if you've done the optional steps above you can just run `ssh 10.8.0.1` and you'll connect)
+
+### SSH from the docker container to your machine
+0. Get your ip address by running `ifconfig` on your machine. It's probably 10.8.0.X where X is some small number
+1. Connect to the docker container using SSH (above)
+2. Run `ssh-keygen` on the docker container (if no one has done that yet)
+4. (optional) run `ssh-copy-id yourusernameonyourmachine@10.8.0.X` and enter your password to copy the docker image's ssh key to your machine.
+2. (optional) update/create the docker image's ~/.ssh/config file to include
+```
+Host 10.8.0.X (your machine's VPN ip address)
+    User yourusernameonyourmachine (your username you use to log in to your own machine)
+```
+5. ssh to your machine using `ssh yourusername@10.8.0.X` and enter your machine's password (or, if you've done the optional steps above you can just run `ssh 10.8.0.X` from the docker container and you'll connect to your machine)
+
+## ROS setup instructions
+Be sure to, on your local machine, set `export ROS_MASTER_URI=http://10.8.0.1:11311` and `export ROS_IP=10.8.0.X' in every bash window you use ROS in (after you've done all the steps, including the optional steps, above) in order to get ROS to network properly. The corresponding commands are already added to the `~/.bashrc` file on the docker container so don't need to be added there.
