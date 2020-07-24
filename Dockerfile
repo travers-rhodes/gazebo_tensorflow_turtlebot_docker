@@ -155,8 +155,8 @@ COPY root /
 EXPOSE 4194
 
 RUN apt-get update && \
-    apt-get install net-tools openssh-server telnet -y && \
-    sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+    apt-get install net-tools openssh-server telnet iputils-ping -y && \
+    sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
 
 ENV DISPLAY :3
 ENV VGL_DISPLAY :2
@@ -165,6 +165,11 @@ COPY root_password.txt /
 
 RUN cat /root_password.txt | chpasswd && \
     rm /root_password.txt
+
+# set up ROS to use the VPN ip address.
+RUN echo "export ROS_MASTER_URI=http://10.8.0.1:11311\n" \
+         "export ROS_IP=10.8.0.1"
+         >> /root/.bashrc
 
 COPY start_vpn_and_sshd_and_vnc.sh .
 CMD ./start_vpn_and_sshd_and_vnc.sh
