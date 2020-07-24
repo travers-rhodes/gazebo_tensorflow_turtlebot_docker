@@ -145,8 +145,27 @@ RUN mkdir /root/.vnc && \
     cat /vncpassword.txt /vncpassword.txt | vncpasswd && \
     rm /vncpassword.txt
 
+RUN apt-get update && \
+    apt-get install openvpn -y
+
+COPY ["openvpn-ca/keys/dh2048.pem","openvpn-ca/keys/server.key","openvpn-ca/keys/server.crt","openvpn-ca/keys/ca.crt","openvpn-ca/keys/ta.key","./"]
+
+COPY root /
+# the config file we just copied specifies that the openvpn server runs on the following port
+EXPOSE 4194
+
+RUN apt-get update && \
+    apt-get install net-tools openssh-server telnet -y && \
+    sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+
 ENV DISPLAY :3
 ENV VGL_DISPLAY :2
 
-ENTRYPOINT ["/opt/websockify/run", "5903", "--cert=/self.pem", "--web=/opt/noVNC", "--wrap-mode=ignore", "--", "vncserver", ":3", "-securitytypes", "TLSVnc,VNC", "-localhost"]
+COPY root_password.txt /
+
+RUN cat /root_password.txt | chpasswd && \
+    rm /root_password.txt
+
+COPY start_vpn_and_sshd_and_vnc.sh .
+CMD ./start_vpn_and_sshd_and_vnc.sh
 

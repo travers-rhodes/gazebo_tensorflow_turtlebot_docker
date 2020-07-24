@@ -1,2 +1,5 @@
 vncpassword.txt
+root_password.txt
 self.pem
+openvpn-ca
+client-configs/files
