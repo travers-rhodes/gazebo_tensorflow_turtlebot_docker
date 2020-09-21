@@ -17,7 +17,7 @@ Instructions on creating those files are available from https://www.digitalocean
 
 1. Start an X Server (in a separate tmux window so it stays running forever)
 ```
-starx -- :2
+startx -- :2
 ```
 2. Make that X Server accessible to docker (everyone)
 ```
