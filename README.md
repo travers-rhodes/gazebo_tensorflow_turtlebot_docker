@@ -1,4 +1,5 @@
 # gazebo_tensorflow_turtlebot_docker
+(if you're working from the current state of the lab machine, try docker ps -a, from https://stackoverflow.com/questions/29202787/restore-deleted-container-docker)
 
 ## Build instructions
 Docker does most of the work for you. The only other steps are privacy-related (manually copying files I don't want to have on GitHub)
